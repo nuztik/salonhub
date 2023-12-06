@@ -3,27 +3,50 @@ from django.db import models
 from django.utils import timezone
 
 
-class Schedule(models.Model):
-    pass
+
+class Service(models.Model):
+    title = models.CharField(u'услуга',max_length=50, default='не указана')
+    price = models.FloatField()
+    times = models.CharField(u'время выполнения', max_length=5, default=30)
+
+    def __str__(self):
+        return f'{self.title}: {self.price}: {self.times}'
 
 
 class Master(models.Model):
-    names = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.OneToOneField(User, on_delete=models.CASCADE)
     # date = models.DateTimeField(u'Дата и время', default=timezone.now)
-    schedules = models.OneToOneField(Schedule, on_delete=models.CASCADE)
+    # schedules = models.OneToOneField(Schedule, on_delete=models.CASCADE)
+    position = models.CharField(u'должность',max_length=50, default='не указана')
+    description = models.TextField(u'Описание', default='не указанo')
+    service = models.ForeignKey(u'услуги', Service)
+    is_active = models.BooleanField(u'активность', default=True)
+    created = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    date = models.DateTimeField(u'Дата и время', default=timezone.now)
+
+    def __str__(self):
+        return f'{self.name}: {self.position}: {self.description}: {self.service}'
 
 
+class Schedule(models.Model):
+    master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    date = models.DateTimeField(u'Дата и время', default=timezone.now)
 
-class Service(models.Model):
-    pass
+    def __str__(self):
+        return f'{self.master}: {self.date}'
 
 
 class Client(models.Model):
-    pass
+    name = models.OneToOneField(User, on_delete=models.CASCADE)
+    contact = models.CharField(max_length=12)
+    service = models.ForeignKey(Service)
+
+    def __str__(self):
+        return f'{self.name}: {self.contact}: {self.service}'
 
 
 class Salon(models.Model):
-
     title = models.CharField(max_length=50)
     address = models.CharField(max_length=150, default='не указан')
     contact = models.CharField(max_length=12, default='не указан')
@@ -32,6 +55,9 @@ class Salon(models.Model):
     scheule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client)
     # date = models.DateTimeField(u'Дата и время',default=timezone.now)
+
+    def __str__(self):
+        return f'{self.title}: {self.address}: {self.contact}:'
 
 
 
