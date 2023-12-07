@@ -5,9 +5,9 @@ from django.utils import timezone
 
 
 class Service(models.Model):
-    title = models.CharField(u'услуга',max_length=50, default='не указана')
+    title = models.CharField(max_length=50, default='не указана')
     price = models.FloatField()
-    times = models.CharField(u'время выполнения', max_length=5, default=30)
+    times = models.CharField(max_length=5, default=30)
 
     def __str__(self):
         return f'{self.title}: {self.price}: {self.times}'
@@ -17,13 +17,13 @@ class Master(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE)
     # date = models.DateTimeField(u'Дата и время', default=timezone.now)
     # schedules = models.OneToOneField(Schedule, on_delete=models.CASCADE)
-    position = models.CharField(u'должность',max_length=50, default='не указана')
-    description = models.TextField(u'Описание', default='не указанo')
-    service = models.ForeignKey(u'услуги', Service)
-    is_active = models.BooleanField(u'активность', default=True)
+    position = models.CharField(max_length=50, default='не указана')
+    description = models.TextField( default='не указанo')
+    service = models.ForeignKey( Service, on_delete=models.CASCADE)
+    is_active = models.BooleanField( default=True)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    date = models.DateTimeField(u'Дата и время', default=timezone.now)
+    date = models.DateTimeField( default=timezone.now)
 
     def __str__(self):
         return f'{self.name}: {self.position}: {self.description}: {self.service}'
@@ -31,7 +31,7 @@ class Master(models.Model):
 
 class Schedule(models.Model):
     master = models.ForeignKey(Master, on_delete=models.CASCADE)
-    date = models.DateTimeField(u'Дата и время', default=timezone.now)
+    date = models.DateTimeField( default=timezone.now)
 
     def __str__(self):
         return f'{self.master}: {self.date}'
@@ -40,7 +40,7 @@ class Schedule(models.Model):
 class Client(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE)
     contact = models.CharField(max_length=12)
-    service = models.ForeignKey(Service)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}: {self.contact}: {self.service}'
