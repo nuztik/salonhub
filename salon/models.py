@@ -6,7 +6,6 @@ from django.utils import timezone
 class Master(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE)
     # date = models.DateTimeField(u'Дата и время', default=timezone.now)
-    # schedules = models.OneToOneField(Schedule, on_delete=models.CASCADE)
     position = models.CharField(max_length=50, default='не указана')
     description = models.TextField( default='не указанo')
     is_active = models.BooleanField( default=True)
@@ -16,12 +15,13 @@ class Master(models.Model):
     def __str__(self):
         return f'{self.name}: {self.position}: {self.description}: {self.service}'
 
-    class Client(models.Model):
-        name = models.OneToOneField(User, on_delete=models.CASCADE)
-        contact = models.CharField(max_length=12)
-        # service = models.ManyToManyField(Service)
-        def __str__(self):
-            return f'{self.name}: {self.contact}: {self.service}'
+
+class Clients(models.Model):
+    name = models.OneToOneField(User, on_delete=models.CASCADE)
+    contact = models.CharField(max_length=12)
+    def __str__(self):
+        return f'{self.name}: {self.contact}: {self.service}'
+
 
 class Service(models.Model):
     title = models.CharField(max_length=50, default='не указана')
@@ -29,7 +29,7 @@ class Service(models.Model):
     content = models.CharField(max_length=200,default='не указанo')
     price = models.FloatField()
     times = models.CharField(max_length=5, default=30)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     record = models.BooleanField(default=False)
     def __str__(self):
         return f'{self.title}: {self.price}: {self.times}: {self.master}: {self.content}'
@@ -38,6 +38,7 @@ class Service(models.Model):
 class Schedule(models.Model):
     master = models.ForeignKey(Master, on_delete=models.CASCADE)
     date = models.DateTimeField( default=timezone.now)
+    client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     def __str__(self):
         return f'{self.master}: {self.date}'
 
@@ -49,10 +50,10 @@ class Salon(models.Model):
     masters = models.ForeignKey(Master, on_delete=models.CASCADE)
     servies = models.ForeignKey(Service, on_delete=models.CASCADE)
     scheule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
-    clients = models.ManyToManyField(Client)
+    clients = models.ManyToManyField(Clients)
     # date = models.DateTimeField(u'Дата и время',default=timezone.now)
     def __str__(self):
-        return f'{self.title}: {self.address}: {self.contact}:'
+        return f'{self.title}: {self.address}: {self.contact}: {self.servies}:'
 
 
 

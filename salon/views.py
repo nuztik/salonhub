@@ -5,11 +5,19 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from public.salon.filters import ServiceFilter
 from public.salon.forms import ServiceForm
-from public.salon.models import Service, Master, Client
+from public.salon.models import Service, Master, Clients, Salon
 
+
+#список салонов
+class SalonList(ListView):
+    model = Salon
+    ordering = 'title'
+    template_name = 'salons.html'
+    context_object_name = 'salons'
+    paginate_by = 10
 
 #список услуг салона
-class SalonList(ListView):
+class SalonDetail(ListView):
     model = Service
     ordering = 'title'
     template_name = 'salon.html'
@@ -98,7 +106,7 @@ class SearchServiceList(ListView):
 
 #список клиентов определенного мастера
 class ClientList(ListView):
-    model = Client
+    model = Clients
     ordering = 'title'
     template_name = 'clients.html'
     context_object_name = 'clients'
@@ -107,7 +115,7 @@ class ClientList(ListView):
     #сортировка клиентов по мастеру
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        client_to_master = Client.objects.filter(master=self.request.user)
+        client_to_master = Clients.objects.filter(master=self.request.user)
         context['client_to_master'] = client_to_master
         return context
 
