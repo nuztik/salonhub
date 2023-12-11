@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'flatpages/default.html' %}
 
-</body>
-</html>
+
+{% block title %}
+Salons
+{% endblock title %}
+
+{% block content %}
+   <h1>Все Услуги салона</h1>
+   <hr>
+    <a href="{% url 's_search' %}"><button> Найти нужную услугу </button></a>
+    <a href="{% url 'masters' %}"><button> Все мастера салона </button></a>
+   {% if salon %}
+       <table>
+           <tr>
+                <td>Наименование услуги</td>
+               <td>Мастер</td>
+               <td>Цена</td>
+               <td>Описание</td>
+           </tr>
+
+           {% for service in salon %}
+           <tr>
+               <td>
+                   <a href="{% url 'service' service.id %}">{{ service.title }}</a>
+               </td>
+               <td>
+                   <a href="{% url 'master' master.id %}">{{ service.master }}</a>
+               </td>
+               <td>{{ service.price }}</td>
+               <td>{{ service.content|truncatewords:50 }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Услуг пока в этом салоне нет!</h2>
+   {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+    {{ page_obj.number }}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}

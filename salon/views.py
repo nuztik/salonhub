@@ -53,7 +53,7 @@ class ServiceDetail(DetailView):
 class ServiceCreate(CreateView):
     form_class = ServiceForm
     model = Service
-    template_name = 'service_create.html'
+    template_name = 'service_upcreate.html'
 
     # может создать/сохранить только мастер
     def get_context_data(self, **kwargs):
@@ -72,7 +72,7 @@ class ServiceCreate(CreateView):
 class ServiceUpdate(UpdateView):
     form_class = ServiceForm
     model = Service
-    template_name = 'service_update.html'
+    template_name = 'service_upcreate.html'
     success_url = reverse_lazy('service')
 
     # функция изменения в таблице услуг

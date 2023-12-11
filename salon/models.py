@@ -47,6 +47,7 @@ class Salon(models.Model):
     title = models.CharField(max_length=50)
     address = models.CharField(max_length=150, default='не указан')
     contact = models.CharField(max_length=12, default='не указан')
+    content = models.CharField(max_length=200, default='не указанo')
     masters = models.ForeignKey(Master, on_delete=models.CASCADE)
     servies = models.ForeignKey(Service, on_delete=models.CASCADE)
     scheule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
