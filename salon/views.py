@@ -3,16 +3,16 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from public.salon.filters import ServiceFilter
-from public.salon.forms import ServiceForm
-from public.salon.models import Service, Master, Clients, Salon
+from .filters import ServiceFilter
+from .forms import ServiceForm
+from .models import Service, Master, Clients, Salon
 
 
 #список салонов
 class SalonList(ListView):
     model = Salon
     ordering = 'title'
-    template_name = 'salons.html'
+    template_name = 'salon/salons.html'
     context_object_name = 'salons'
     paginate_by = 10
 
@@ -20,7 +20,7 @@ class SalonList(ListView):
 class SalonDetail(ListView):
     model = Service
     ordering = 'title'
-    template_name = 'salon.html'
+    template_name = 'salon/salon.html'
     context_object_name = 'salon'
     paginate_by = 10
 
@@ -29,7 +29,7 @@ class SalonDetail(ListView):
 class MasterList(ListView):
     model = Master
     ordering = 'title'
-    template_name = 'masters.html'
+    template_name = 'salon/masters.html'
     context_object_name = 'masters'
     paginate_by = 10
 
@@ -37,7 +37,7 @@ class MasterList(ListView):
 class MasterDetail(DetailView):
     model = Service
     ordering = 'title'
-    template_name = 'master.html'
+    template_name = 'salon/master.html'
     context_object_name = 'master'
     paginate_by = 10
 
@@ -45,7 +45,7 @@ class MasterDetail(DetailView):
 class ServiceDetail(DetailView):
     model = Service
     ordering = 'title'
-    template_name = 'service.html'
+    template_name = 'sarevice/service.html'
     context_object_name = 'masters'
     paginate_by = 10
 
@@ -53,7 +53,7 @@ class ServiceDetail(DetailView):
 class ServiceCreate(CreateView):
     form_class = ServiceForm
     model = Service
-    template_name = 'service_upcreate.html'
+    template_name = 'service/service_upcreate.html'
 
     # может создать/сохранить только мастер
     def get_context_data(self, **kwargs):
@@ -72,7 +72,7 @@ class ServiceCreate(CreateView):
 class ServiceUpdate(UpdateView):
     form_class = ServiceForm
     model = Service
-    template_name = 'service_upcreate.html'
+    template_name = 'service/service_upcreate.html'
     success_url = reverse_lazy('service')
 
     # функция изменения в таблице услуг
@@ -84,13 +84,13 @@ class ServiceUpdate(UpdateView):
 #удаление услуги мастером
 class ServiceDelete(DeleteView):
     model = Service
-    template_name = 'service_delete.html'
+    template_name = 'service/service_delete.html'
 
 #поиск услуги
 class SearchServiceList(ListView):
     model = Service
     ordering = 'title'
-    template_name = 'service_search.html'
+    template_name = 'service/service_search.html'
     context_object_name = 'service_search'
 
     # функции фильтрации по заданному поиску
@@ -108,7 +108,7 @@ class SearchServiceList(ListView):
 class ClientList(ListView):
     model = Clients
     ordering = 'title'
-    template_name = 'clients.html'
+    template_name = 'client/clients.html'
     context_object_name = 'clients'
     paginate_by = 10
 
@@ -124,7 +124,7 @@ class ClientList(ListView):
 class ClientDetail(ListView):
     model = Service
     ordering = 'title'
-    template_name = 'client.html'
+    template_name = 'client/client.html'
     context_object_name = 'client'
     paginate_by = 10
 
@@ -143,7 +143,7 @@ def sign_up(request, pk):
     service.record = True
     service.save(user)
     message = 'Вы записаны'
-    return render(request, 'sign_up.html', {'service': service, 'message': message})
+    return render(request, 'service/sign_up.html', {'service': service, 'message': message})
 
 #функция удалить запись
 @login_required
@@ -153,7 +153,7 @@ def del_entry(request, pk):
     service.record = False
     service.save(user)
     message = 'Вы отменили запись'
-    return render(request, 'del_entry.html', {'service': service, 'message': message})
+    return render(request, 'service/del_entry.html', {'service': service, 'message': message})
 
 
 

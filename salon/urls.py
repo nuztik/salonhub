@@ -1,9 +1,9 @@
 from django.urls import path
 
-from public.salon.views import SalonList, SalonDetail, MasterList, MasterDetail, ServiceDetail, ServiceCreate, \
+from .views import SalonList, SalonDetail, MasterList, MasterDetail, ServiceDetail, ServiceCreate, \
     ServiceUpdate, ServiceDelete, SearchServiceList, ClientList, ClientDetail, sign_up, del_entry
 
-urlpattern = [
+urlpatterns = [
     path('salons/',SalonList.as_view(), name='salons'),
     path('salon/<int:pk>/', SalonDetail.as_view(), name='salon'),
     path('masters/', MasterList.as_view(), name='masters'),
