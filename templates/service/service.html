@@ -2,48 +2,39 @@
 
 
 {% block title %}
-Post
+Service
 {% endblock title %}
 
 {% block content %}
 
-    <h1>{{ post.title }}</h1>
+    <h1>{{ service.title }}</h1>
    <hr>
- {% if post %}
+ {% if services %}
        <table>
            <tr>
-               <td>Дата публикации</td>
-               <td>Автор</td>
-               <td>Категория</td>
-               <td>Файл</td>
+               <td>Мастер</td>
+               <td>Цена</td>
+               <td>Время выполнения</td>
                <td>Описание</td>
            </tr>
 
            <tr>
-               <td>{{ post.data|date:'M d Y' }}</td>
-               <td>{{ post.author }}</td>
-               <td>{{ post.category }}</td>
-               <td>
-                   {% if post.file%}
-                        <img src="{{ post.file.url }}" width="100px">
-                   {% endif %}
-               </td>
-               <td>{{ post.context }}</td>
+               <td>{{ service.master }}</td>
+               <td>{{ service.price }}</td>
+               <td>{{ service.times }}</td>
+               <td>{{ post.content }}</td>
            </tr>
        </table>
 {% else %}
-       <h2>Такого объявления нет!</h2>
-{% endif %}
-{% if reply in replies %}
-    <table>
-        <td>{{ reply.author }}</td>
-        <td>{{ reply.data }}</td>
-        <td>{{ reply.context }}</td>
-    </table>
+       <h2>Подробной информации об услуги нет!</h2>
 {% endif %}
 <hr>
-<button><a href="reply/create/">Создать отклик</a></button>
-<button><a href="{% url 'delete_post' post.id %}">Удалить</a></button>
-<button><a href="'board/<int:pk>/update/">Редактировать</a></button>
-
+{% if user.is_authenticated %}
+    <a href="{% url 'sign_up' %}"><button> Записаться на эту услугу </button></a>
+    <a href="{% url 's_search' %}"><button> Найти нужную услугу </button></a>
+    {% endif %}
+{% if user.is_master %}
+    <a href="{% url 's_update' %}"><button> Изменить услугу </button></a>
+    <a href="{% url 's_delete' %}"><button> Удалить услугу </button></a>
+    {% endif %}
 {% endblock content %}

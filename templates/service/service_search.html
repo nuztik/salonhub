@@ -1,27 +1,28 @@
 {% extends 'flatpages/default.html' %}
 
 {% block title %}
-Post
+Service
 {% endblock title %}
 
 {% block content %}
-    <h1> Поиск объявлений : {{ search|length }} </h1>
+    <h1> Поиск услуг : {{ search|length }} </h1>
     <hr>
     <form action="" method="get">
         {{ filterset.form.as_p }}
         <input type="submit" value="Найти" />
     </form>
-    {% for post in search%}
+    {% for service in search%}
     <div>
-        {{post.author.user__username}}
+        {{service.master.user__username}}
         <br>
-        {{post.data|date:'d.m.Y'}}
+        <a href="{% url 'service' service.id %}">{{ service.title }}</a>
         <br>
-        <a href="{% url 'post' post.id %}">{{ post.title }}</a>
+        {{service.content|truncatechars:50}}
         <br>
-        {{post.context|truncatechars:50}}
+        {{ service.price }}
         <br>
-        {{post.get_news_display}}
+        {{ service.times }}
+        <br>
     </div>
     {%endfor%}
 

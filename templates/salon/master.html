@@ -1,16 +1,57 @@
 {% extends 'flatpages/default.html' %}
 
+
 {% block title %}
-author
+Master
 {% endblock title %}
 
 {% block content %}
-<h1>Страница Автора: {{ post.author.username }}</h1>
-{% if post %}
-        <h2>{{ posts.title }}</h2>
-        <br>
-        {{ post.context }}
-        <button><a class="text-center" href="/posts/{{post.id}}">читать </a> </button>
-        <br>
-{% endif %}
+   <h1>Все Услуги мастера</h1>
+   <hr>
+    {% if user.is_master %}
+    <a href="{% url 'clients' %}"><button> Клиенты мастера </button></a>
+    <a href="{% url 's_create' %}"><button> Добавить запись </button></a>
+    {% endif %}
+    <a href="{% url 's_search' %}"><button> Найти нужную услугу </button></a>
+    <a href="{% url 'masters' %}"><button> Все мастера салона </button></a>
+   {% if salon %}
+       <table>
+           <tr>
+                <td>Наименование услуги</td>
+               <td>Время выполнения</td>
+               <td>Цена</td>
+               <td>Описание</td>
+           </tr>
+
+           {% for service in master %}
+           <tr>
+               <td>
+                   <a href="{% url 'service' service.id %}">{{ service.title }}</a>
+               </td>
+               <td>{{ service.times }}</td>
+               <td>{{ service.price }}</td>
+               <td>{{ service.content|truncatewords:50 }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Услуг пока у этого мастера нет!</h2>
+   {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+    {{ page_obj.number }}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
 {% endblock content %}

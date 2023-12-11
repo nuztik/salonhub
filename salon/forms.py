@@ -12,6 +12,7 @@ class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
         fields = [
+            'master',
             'title',
             'content',
             'price',
