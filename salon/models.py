@@ -37,7 +37,7 @@ class Service(models.Model):
         return f'{self.title}: {self.price}: {self.times}: {self.master}: {self.content}'
 
 
-class Schedule(models.Model):
+class Schedules(models.Model):
     master = models.ForeignKey(Master, on_delete=models.CASCADE)
     date = models.DateTimeField( default=timezone.now)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
@@ -52,7 +52,7 @@ class Salon(models.Model):
     content = models.CharField(max_length=200, default='не указанo')
     masters = models.ForeignKey(Master, on_delete=models.CASCADE)
     servies = models.ForeignKey(Service, on_delete=models.CASCADE)
-    scheule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
+    scheule = models.ForeignKey(Schedules, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Clients)
     # date = models.DateTimeField(u'Дата и время',default=timezone.now)
     def __str__(self):

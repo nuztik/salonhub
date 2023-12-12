@@ -1,11 +1,11 @@
 from django.contrib import admin
 
 
-from .models import Master, Schedule, Service, Clients, Salon
+from .models import Master, Schedules, Service, Clients, Salon
 
 # добавление специальной модели в admin панель
 class ScheduleInline(admin.StackedInline):
-    model = Schedule
+    model = Schedules
     extra = 0
 
 class MasterAdmin(admin.ModelAdmin):
@@ -17,5 +17,5 @@ admin.site.register(Master, MasterAdmin)
 admin.site.register(Service)
 admin.site.register(Clients)
 admin.site.register(Salon)
-admin.site.register(Schedule)
+admin.site.register(Schedules)
 # Register your models here.
