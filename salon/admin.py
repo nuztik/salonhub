@@ -17,4 +17,5 @@ admin.site.register(Master, MasterAdmin)
 admin.site.register(Service)
 admin.site.register(Clients)
 admin.site.register(Salon)
+admin.site.register(Schedule)
 # Register your models here.

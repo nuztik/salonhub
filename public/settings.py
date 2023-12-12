@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
 
+    'schedule',
+    'djangobower',
+
     'salon',
 
     'allauth',
@@ -75,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -130,6 +134,8 @@ USE_TZ = True
 
 SITE_ID = 1
 
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -142,8 +148,23 @@ SITE_URL = 'http://127.0.0.1.8000'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 
-STATICFILES_DIRS = [(
-    os.path.join(BASE_DIR, 'static')
-)]
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+
+# STATICFILES_DIRS = [(
+#     os.path.join(PROJECT_PATH, 'static')
+# )]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'jquery-ui',
+    'bootstrap',
+    'fullcalendar#3.8.2'
+)
