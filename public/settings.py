@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
 
     'salon',
+    'schedule',
 
 ]
 
@@ -132,3 +133,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+FIRST_DAY_OF_WEEK = 1 # Monday
